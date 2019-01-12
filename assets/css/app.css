@@ -1,0 +1,9 @@
+/* This file is for your main application css. */
+
+@import "./phoenix.css";
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
