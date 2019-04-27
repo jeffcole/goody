@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Goody</title>
     <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
+
+    <%= render_existing @view_module, "scripts." <> @view_template, assigns %>
   </head>
   <body>
     <main role="main" class="container">
