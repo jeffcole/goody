@@ -11,8 +11,16 @@ use Mix.Config
 # before starting your production server.
 config :goody, GoodyWeb.Endpoint,
   http: [:inet6, port: System.get_env("PORT") || 4000],
-  url: [host: "example.com", port: 80],
-  cache_static_manifest: "priv/static/cache_manifest.json"
+  url: [scheme: "https", host: "staging-goody.herokuapp.com", port: 443],
+  force_ssl: [rewrite_on: [:x_forwarded_proto]],
+  cache_static_manifest: "priv/static/cache_manifest.json",
+  secret_key_base: Map.fetch!(System.get_env(), "SECRET_KEY_BASE")
+
+# Configure your database
+config :goody, Goody.Repo,
+  url: System.get_env("DATABASE_URL"),
+  pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10"),
+  ssl: true
 
 # Do not print debug messages in production
 config :logger, level: :info
@@ -65,7 +73,3 @@ config :logger, level: :info
 #
 # Note you can't rely on `System.get_env/1` when using releases.
 # See the releases documentation accordingly.
-
-# Finally import the config/prod.secret.exs which should be versioned
-# separately.
-import_config "prod.secret.exs"
