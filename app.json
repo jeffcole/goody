@@ -21,10 +21,7 @@
       "addons": ["heroku-postgresql:in-dyno"],
       "buildpacks": [
         {
-          "url": "https://github.com/heroku/heroku-buildpack-google-chrome.git"
-        },
-        {
-          "url": "https://github.com/heroku/heroku-buildpack-chromedriver.git"
+          "url": "https://github.com/stomita/heroku-buildpack-phantomjs.git"
         },
         {
           "url": "https://github.com/HashNuke/heroku-buildpack-elixir.git"
