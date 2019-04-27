@@ -28,6 +28,8 @@ npm-debug.log
 # The directory NPM downloads your dependencies sources to.
 /assets/node_modules/
 
+/assets/elm-stuff/
+
 # Parcel artifacts
 /assets/.cache/
 /assets/priv/
