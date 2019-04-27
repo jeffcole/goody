@@ -1,3 +1,6 @@
+# Local environment-specific configuration managed with direnv
+.envrc
+
 # The directory Mix will write compiled artifacts to.
 /_build/
 
