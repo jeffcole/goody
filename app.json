@@ -18,7 +18,18 @@
   },
   "environments": {
     "test": {
-      "addons": ["heroku-postgresql:in-dyno"]
+      "addons": ["heroku-postgresql:in-dyno"],
+      "buildpacks": [
+        {
+          "url": "https://github.com/stomita/heroku-buildpack-phantomjs.git"
+        },
+        {
+          "url": "https://github.com/HashNuke/heroku-buildpack-elixir.git"
+        },
+        {
+          "url": "https://github.com/gjaldon/heroku-buildpack-phoenix-static.git"
+        }
+      ]
     }
   },
   "formation": {

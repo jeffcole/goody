@@ -44,7 +44,15 @@ defmodule Goody.MixProject do
       {:postgrex, ">= 0.0.0"},
 
       # `dev` environment only
-      {:phoenix_live_reload, "~> 1.2", only: :dev}
+      {:phoenix_live_reload, "~> 1.2", only: :dev},
+
+      # `test` environment only
+      {:wallaby,
+       [
+         git: "https://github.com/keathley/wallaby",
+         only: :test,
+         runtime: false
+       ]}
     ]
   end
 
@@ -56,6 +64,7 @@ defmodule Goody.MixProject do
   # See the documentation for `Mix` for more info on aliases.
   defp aliases do
     [
+      "assets.compile": &compile_assets/1,
       "ecto.reset": [
         "ecto.drop",
         "ecto.setup"
@@ -66,10 +75,15 @@ defmodule Goody.MixProject do
         "run priv/repo/seeds.exs"
       ],
       test: [
+        "assets.compile",
         "ecto.create",
         "ecto.migrate",
         "test"
       ]
     ]
+  end
+
+  defp compile_assets(_) do
+    Mix.shell().cmd("cd assets && npm run deploy")
   end
 end

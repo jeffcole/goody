@@ -1,6 +1,10 @@
 defmodule GoodyWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :goody
 
+  if Application.get_env(:your_app, :sql_sandbox) do
+    plug Phoenix.Ecto.SQL.Sandbox
+  end
+
   socket "/socket", GoodyWeb.UserSocket,
     websocket: [timeout: 45_000],
     longpoll: false
