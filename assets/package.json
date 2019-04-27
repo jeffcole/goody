@@ -1,13 +1,17 @@
 {
   "repository": {},
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "deploy": "../bin/deploy",
+    "watch": "../bin/watch"
+  },
   "dependencies": {
     "phoenix": "file:../deps/phoenix",
     "phoenix_html": "file:../deps/phoenix_html"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",
-    "@babel/preset-env": "^7.0.0"
+    "@babel/preset-env": "^7.0.0",
+    "parcel-bundler": "^1.11.0"
   }
 }

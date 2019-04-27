@@ -1,0 +1,9 @@
+#!/bin/sh
+
+set -e
+
+rsync -r static/ ../priv/static
+
+parcel build ./css/app.css ./js/app.js \
+  --out-dir ../priv/static \
+  --public-url .

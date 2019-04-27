@@ -1,11 +1,8 @@
-// We need to import the CSS so that ??? will load it.
-import css from "../css/app.css"
-
-// ??? automatically bundles all modules in your entry points.
+// Parcel automatically bundles all modules in your entry points.
 //
 // Import dependencies
 //
-import "phoenix_html"
+import "phoenix_html";
 
 // Import local files
 //
