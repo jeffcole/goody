@@ -10,7 +10,8 @@ defmodule Goody.MixProject do
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
-      deps: deps()
+      deps: deps(),
+      dialyzer: [plt_add_apps: [:ex_unit, :wallaby]]
     ]
   end
 
@@ -45,6 +46,7 @@ defmodule Goody.MixProject do
 
       # `dev` and `test` environments only
       {:credo, "~> 1.0.2", only: [:dev, :test], runtime: false},
+      {:dialyxir, "~> 1.0.0-rc.4", only: [:dev, :test], runtime: false},
 
       # `dev` environment only
       {:phoenix_live_reload, "~> 1.2", only: :dev},
