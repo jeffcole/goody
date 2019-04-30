@@ -1,0 +1,125 @@
+#!/bin/sh
+
+set -e
+
+if command -v asdf >/dev/null; then
+  echo "[setup] Updating asdf"
+  asdf update
+
+  echo "[setup] Creating .tool-versions from Heroku buildpack configs"
+  if [ -f .tool-versions ]; then
+    rm .tool-versions
+  fi
+
+  # Set version variables from buildpacks
+  . elixir_buildpack.config
+  . phoenix_static_buildpack.config
+
+  echo "erlang $erlang_version" >> .tool-versions
+  echo "elixir $elixir_version" >> .tool-versions
+  echo "nodejs $node_version" >> .tool-versions
+
+  echo "[setup] Installing Erlang"
+  if ! asdf plugin-list | grep erlang; then
+    asdf plugin-add erlang https://github.com/asdf-vm/asdf-erlang.git
+  else
+    asdf plugin-update erlang
+  fi
+
+  export ERLANG_EXTRA_CONFIGURE_OPTIONS="--without-javac"
+  asdf install erlang ${erlang_version}
+
+  echo "[setup] Installing Elixir"
+  if ! asdf plugin-list | grep elixir; then
+    asdf plugin-add elixir https://github.com/asdf-vm/asdf-elixir.git
+  else
+    asdf plugin-update elixir
+  fi
+
+  asdf install elixir ${elixir_version}
+
+  echo "[setup] Installing Node.js"
+  if ! asdf plugin-list | grep nodejs; then
+    asdf plugin-add nodejs https://github.com/asdf-vm/asdf-nodejs.git
+  else
+    asdf plugin-update nodejs
+  fi
+
+  ~/.asdf/plugins/nodejs/bin/import-release-team-keyring
+  asdf install nodejs ${node_version}
+
+  echo "[setup] Installing npm"
+  npm install -g npm@${npm_version}
+
+  echo "[setup] Reshiming Node.js"
+  asdf reshim nodejs
+else
+  echo "[setup] This project recommends using the asdf version manager."
+  echo "[setup] Please see README.md for more information."
+fi
+
+if command -v direnv >/dev/null; then
+  if [ ! -f .envrc ]; then
+    echo "Creating .envrc from .sample.envrc"
+    cp .sample.envrc .envrc
+  fi
+
+  direnv allow
+else
+  echo "[setup] This project recommends using direnv for automatic sourcing"
+  echo "[setup] of environment variables. Please see README.md for more"
+  echo "[setup] information."
+fi
+
+echo "[setup] Removing previous build artifacts"
+rm -rf _build assets/node_modules deps
+
+if ! command -v mix >/dev/null; then
+  echo "[setup] It looks like you don't have Elixir installed."
+  echo "[setup] Exiting."
+  exit 1
+fi
+
+echo "[setup] Installing server-side dependencies and compiling"
+mix local.rebar --force
+mix local.hex --force
+yes | mix deps.get
+mix deps.compile
+mix compile --warnings-as-errors
+
+echo "[setup] Setting up the database"
+# Ensure migrations directory exists for first run
+mkdir -p "priv/repo/migrations"
+mix ecto.create
+mix ecto.migrate
+mix run priv/repo/seeds.exs
+
+echo "[setup] Installing client-side dependencies"
+if ! command -v npm >/dev/null; then
+  echo "[setup] It looks like you don't have npm installed."
+  echo "[setup] Exiting."
+  exit 1
+fi
+(
+  cd assets
+  npm install
+  npm install -g \
+    elm \
+    elm-format \
+    elm-test \
+    phantomjs-prebuilt
+)
+
+if command -v brew >/dev/null; then
+  echo "[setup] Installing and configuring pre-commit"
+  brew install pre-commit
+  pre-commit install --hook-type commit-msg
+else
+  echo "[setup] Please see README.md for instructions on setting up commit"
+  echo "[setup] linting."
+fi
+
+echo "[setup] Setting Heroku staging git remote"
+heroku git:remote -r staging -a staging-goody || true
+echo "[setup] Setting Heroku production git remote"
+heroku git:remote -r production -a production-goody || true

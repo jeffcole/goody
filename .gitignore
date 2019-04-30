@@ -1,3 +1,6 @@
+# Dependency versions managed with asdf
+.tool-versions
+
 # Local environment-specific configuration managed with direnv
 .envrc
 
