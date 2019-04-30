@@ -14,6 +14,8 @@ defmodule Goody.DataCase do
 
   use ExUnit.CaseTemplate
 
+  alias Ecto.Adapters.SQL.Sandbox
+
   using do
     quote do
       alias Goody.Repo
@@ -26,10 +28,10 @@ defmodule Goody.DataCase do
   end
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Goody.Repo)
+    :ok = Sandbox.checkout(Goody.Repo)
 
     unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(Goody.Repo, {:shared, self()})
+      Sandbox.mode(Goody.Repo, {:shared, self()})
     end
 
     :ok

@@ -43,6 +43,9 @@ defmodule Goody.MixProject do
       {:plug_cowboy, "~> 2.0"},
       {:postgrex, ">= 0.0.0"},
 
+      # `dev` and `test` environments only
+      {:credo, "~> 1.0.2", only: [:dev, :test], runtime: false},
+
       # `dev` environment only
       {:phoenix_live_reload, "~> 1.2", only: :dev},
 

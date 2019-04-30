@@ -1,4 +1,8 @@
 defmodule GoodyWeb.FeatureCase do
+  @moduledoc """
+  This module defines the test case to be used by feature tests.
+  """
+
   use ExUnit.CaseTemplate
 
   using do
