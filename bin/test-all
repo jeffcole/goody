@@ -1,0 +1,22 @@
+#!/bin/sh
+
+set -e
+
+export MIX_ENV=test
+
+(
+  cd assets
+  npx prettier --check \
+    css/**/* \
+    js/**/* \
+    elm.json \
+    package.json
+  npx elm-format --validate src
+)
+
+mix format --check-formatted
+mix compile
+mix credo --strict
+mix dialyzer --halt-exit-status
+mix test --cover
+mix run priv/repo/seeds.exs

@@ -29,7 +29,11 @@
         {
           "url": "https://github.com/gjaldon/heroku-buildpack-phoenix-static.git"
         }
-      ]
+      ],
+      "scripts": {
+        "test-setup": "bin/ci/test-setup",
+        "test": "bin/test-all"
+      }
     }
   },
   "formation": {

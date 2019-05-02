@@ -1,0 +1,16 @@
+#!/bin/sh
+
+set -e
+
+export MIX_ENV=test
+
+(
+  cd assets
+  npm install --global \
+    prettier \
+    elm \
+    elm-format \
+    elm-test
+)
+
+mix deps.get
