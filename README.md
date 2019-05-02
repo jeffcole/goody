@@ -119,16 +119,27 @@ bin/test-all
 
 Note that a run of [Dialyxir] is included in the [`bin/test-all`] script, which will take a long time to run for the first invocation on each version of Erlang and Elixir.
 
-Run the test suite a single time with:
+Run only the Elixir tests, including the full-stack feature tests, with:
 
 ```sh
+# Run tests a single time
 mix test
+
+# Run tests on every file change
+mix test.watch
 ```
 
-Run the test suite on each file change with:
+Run only the Elm tests with:
 
 ```sh
-mix test.watch
+# Ensure you are in the assets directory
+cd assets
+
+# Run tests a single time
+elm-test
+
+# Run tests on every file change
+elm-test --watch
 ```
 
 [heroku ci]: https://devcenter.heroku.com/articles/heroku-ci

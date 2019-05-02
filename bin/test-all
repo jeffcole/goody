@@ -20,3 +20,8 @@ mix credo --strict
 mix dialyzer --halt-exit-status
 mix test --cover
 mix run priv/repo/seeds.exs
+
+(
+  cd assets
+  elm-test
+)
