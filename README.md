@@ -4,13 +4,14 @@
 
 This is a starter project for a web application using [Elixir], [Phoenix], [Elm], and [Parcel], deployable to [Heroku].
 
-It comes preconfigured for ease of project setup, testing, integration, and deployment.
+It comes preconfigured for ease of project setup, testing, integration, and deployment. Check out a [blog post] about some of the ideas behind it.
 
 [elixir]: https://elixir-lang.org
 [phoenix]: https://phoenixframework.org
 [elm]: https://elm-lang.org
 [parcel]: https://parceljs.org
 [heroku]: https://www.heroku.com
+[blog post]: https://www.mojotech.com/blog/good-software-project
 
 ## How do I use it?
 
