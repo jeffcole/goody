@@ -10,6 +10,8 @@ use Mix.Config
 config :goody,
   ecto_repos: [Goody.Repo]
 
+config :goody, Goody.Repo, migration_timestamps: [type: :utc_datetime]
+
 # Configures the endpoint
 config :goody, GoodyWeb.Endpoint,
   url: [host: "localhost"],
